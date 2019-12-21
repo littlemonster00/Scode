@@ -5,7 +5,7 @@ ipcRenderer.on("new-file", (event, args) => {
     const div = document.createElement("div");
     div.id = "text-editor";
     div.innerHTML = `
-    <textarea name="" id="textArea" cols="65" rows="35"></textarea>
+    <textarea name="" id="textArea" cols="125" rows="40"></textarea>
   `;
     document.getElementById("editor").appendChild(div);
     document.title = "Untitled";
@@ -33,5 +33,16 @@ ipcRenderer.on("save-file", (event, args) => {
       textArea.setAttribute("name", reply.filePath);
       document.title = reply.fileName + " - " + "scabin";
     }
+  }
+});
+
+ipcRenderer.on("file-open", (event, args) => {
+  if (args) {
+    document.title = args.filePath.split("/").pop();
+    const div = document.createElement("div");
+    div.id = "text-editor";
+    div.innerHTML = `<textarea name=${args.filePath} id="textArea" cols="125" rows="40">${args.text}</textarea>`;
+    document.getElementById("editor").appendChild(div);
+    addSaveStateListener();
   }
 });

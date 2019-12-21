@@ -3,7 +3,6 @@ const electron = require("electron");
 const { ipcMain } = require("electron");
 const path = require("path");
 const url = require("url");
-const loadWorkSpace = require("../work-space/workspace");
 const fs = require("fs");
 const mainMenuTemplate = [
   {
@@ -18,13 +17,22 @@ const mainMenuTemplate = [
       },
       {
         label: "Open File",
-        accelerator: process.platform == "darwin" ? "Command+O" : "Ctrl+O"
+        accelerator: process.platform == "darwin" ? "Command+O" : "Ctrl+O",
+        click(item, focusedWindow) {
+          const [filePath] = dialog.showOpenDialogSync(focusedWindow, {
+            defaultPath: "."
+          });
+          const text = fs.readFileSync(filePath, { encoding: "utf-8" });
+          focusedWindow.webContents.send("file-open", {
+            text,
+            filePath
+          });
+        }
       },
       {
         label: "Save",
         accelerator: process.platform == "darwin" ? "Command+S" : "Ctrl+S",
         click(item, focusedWindow) {
-          let i = 0;
           focusedWindow.webContents.send("save-file", "save");
         }
       },
@@ -72,10 +80,9 @@ ipcMain.on("file-saved", (event, args) => {
       filePath = args.filePath;
     }
     fs.writeFileSync(filePath, args.text, "utf-8");
-    const arrFilePath = filePath.split("/");
     event.returnValue = {
       filePath,
-      fileName: arrFilePath[arrFilePath.length - 1]
+      fileName: filePath.split("/").pop()
     };
   } catch (e) {
     console.log("Failed to save the file !");
