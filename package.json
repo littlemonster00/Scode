@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.3",
+    "codemirror": "^5.50.0",
     "css-modules-require-hook": "^4.2.3",
     "moment": "^2.24.0",
     "react": "^16.12.0",

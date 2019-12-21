@@ -48,17 +48,21 @@ ipcRenderer.on("file-open", (event, args) => {
   if (args) {
     const textArea = document.getElementById("text-editor");
     if (textArea) {
-      // if (document.title.split(" ")[0] === "*") {
-      //   alert("Please save this file before open new windows");
-      //   return;
-      // }
       textArea.parentNode.removeChild(textArea);
     }
     document.title = args.filePath.split("/").pop();
-    const div = document.createElement("div");
-    div.id = "text-editor";
-    div.innerHTML = `<textarea name=${args.filePath} id="textArea" cols="120" rows="40">${args.text}</textarea>`;
-    document.getElementById("editor").appendChild(div);
+    // const div = document.createElement("div");
+    // div.id = "text-editor";
+    // div.innerHTML = `<textarea class="codemirror-textarea" name=${args.filePath} id="textArea">${args.text}</textarea>`;
+    // document.getElementById("editor").appendChild(div);
+    // const textArea = document.getElementById("textArea");
+    document.getElementById("textArea").value = args.text;
+    document.getElementById("textArea").name = args.filePath;
+
+    CodeMirror.fromTextArea(document.getElementById("textArea"), {
+      mode: "javascript",
+      lineNumbers: true
+    });
     addSaveStateListener();
   }
 });

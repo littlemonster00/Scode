@@ -48,7 +48,7 @@ const mainMenuTemplate = [
       }
     ]
   },
-  {
+/*  {
     label: "Edit"
   },
   {
@@ -68,7 +68,7 @@ const mainMenuTemplate = [
   },
   {
     label: "Help"
-  }
+  }*/
 ];
 
 ipcMain.on("file-saved", (event, args) => {

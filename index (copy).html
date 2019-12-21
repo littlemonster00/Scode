@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta />
+    <link rel="stylesheet" href="main.css" />
+    <script type="text/javascript" src="index.js"></script>
+
+    <!-- Script -->
+  </head>
+  <body tabindex="-1">
+    <textarea class="codemirror-textarea" id="textArea"></textarea>
+    <script
+      type="text/javascript"
+      src="plugin/CodeMirror/lib/codemirror.js"
+    ></script>
+    <link rel="stylesheet" href="plugin/CodeMirror/lib/codemirror.css" />
+    <script
+      type="text/javascript"
+      src="plugin/CodeMirror/mode/javascript/javascript.js"
+    ></script>
+    <script>
+      let editor2 = CodeMirror.fromTextArea(
+        document.getElementById("textArea"),
+        {
+          mode: "javascript",
+          lineNumbers: true
+        }
+      );
+      // var myCodeMirror = CodeMirror(document.body, {
+      //   value: "function myScript(){return 100;}\n",
+      //   mode: "javascript"
+      // });
+    </script>
+  </body>
+</html>
