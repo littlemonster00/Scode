@@ -1,23 +1,28 @@
-body {
+body, html {
   background-color: gray;
+  height: 100%;
+  width: 100%;
 }
 .container {
   display: flex;
+  height: 100%;
+  background-color: blue;
 }
 
 .navbar {
   background-color: red;
   width: 25%;
-  height: 95vh;
+  height: 90%;
 }
 
 #editor {
   background-color: royalblue;
   width: 75%;
-  height: auto;
+  height: 90%;
 }
 
 .CodeMirror {
+    height: auto;
     font-family: Inconsolata, monospace;
     font-size: 16px;
 }

@@ -48,7 +48,19 @@ const mainMenuTemplate = [
       }
     ]
   },
-/*  {
+  {
+    label: "Open Folder",
+    accelerator: process.platform == "darwin" ? "Command+K+O" : "Ctrl+K+O",
+    click(event, focusedWindow) {
+      // Load file from current dicrectory
+      fs.readdir(".", (err, dir) => {
+        focusedWindow.webContents.send("directory-open", {
+          dir
+        });
+      });
+    }
+  }
+  /*  {
     label: "Edit"
   },
   {

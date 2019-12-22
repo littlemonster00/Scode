@@ -55,7 +55,7 @@ ipcRenderer.on("file-open", (event, args) => {
       mode: myModeSpec(args.filePath),
       lineNumbers: true
     });
-    myEditor.setSize("100%", window.screen.height);
+    myEditor.setSize("100%", window.screen.height * 0.9);
     myEditor.on("change", function(instance, changeObj) {
       const oldTitle = document.title;
       if (oldTitle.split(" ")[0] !== "*") {
@@ -79,4 +79,13 @@ ipcRenderer.on("save-file", (event, args) => {
       document.title = reply.fileName + " - " + "scabin";
     }
   }
+});
+
+ipcRenderer.on("directory-open", (event, args) => {
+  const navBar = document.getElementById("navbar");
+  let pTags = "";
+  for (let i = 0; i < args.dir.length; i++) {
+    pTags += `<p>${args.dir[i]}</p>`;
+  }
+  navBar.innerHTML = pTags;
 });
