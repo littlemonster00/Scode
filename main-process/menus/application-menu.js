@@ -50,12 +50,25 @@ const mainMenuTemplate = [
   },
   {
     label: "Open Folder",
-    accelerator: process.platform == "darwin" ? "Command+K+O" : "Ctrl+K+O",
+    accelerator: process.platform == "darwin" ? "Command+K" : "Ctrl+K",
     click(event, focusedWindow) {
       // Load file from current dicrectory
       fs.readdir(".", (err, dir) => {
+        const filePaths = [];
+        for (let i = 0; i < dir.length; i++) {
+          console.log(dir[i]);
+          filePaths.push({
+            path: path.join(__dirname, "../../", dir[i]),
+            type:
+              fs.existsSync &&
+              fs.lstatSync(path.join(__dirname, "../../", dir[i])).isDirectory()
+                ? "dir"
+                : "file"
+          });
+        }
+
         focusedWindow.webContents.send("directory-open", {
-          dir
+          filePaths
         });
       });
     }

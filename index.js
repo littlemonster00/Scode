@@ -83,9 +83,20 @@ ipcRenderer.on("save-file", (event, args) => {
 
 ipcRenderer.on("directory-open", (event, args) => {
   const navBar = document.getElementById("navbar");
+  function openFileOrFolder(fileName) {
+    console.log(fileName);
+  }
   let pTags = "";
-  for (let i = 0; i < args.dir.length; i++) {
-    pTags += `<p>${args.dir[i]}</p>`;
+  for (let i = 0; i < args.filePaths.length; i++) {
+    pTags += `<button key="${args.filePaths[i].path}" class="file-name ${
+      args.filePaths[i].type
+    }">${args.filePaths[i].path.split("/").pop()}</button></br>`;
   }
   navBar.innerHTML = pTags;
+  const listDirs = document.getElementsByClassName("file-name");
+  for (let i = 0; i < listDirs.length; i++) {
+    listDirs[i].addEventListener("click", button => {
+      console.log(button.target.innerHTML);
+    });
+  }
 });
