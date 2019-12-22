@@ -18,6 +18,7 @@ function initialize() {
         nodeIntegration: true
       }
     });
+    mainWindow.maximize();
     mainWindow.loadURL(
       url.format({
         pathname: path.join(__dirname, "index.html"),
@@ -56,3 +57,6 @@ function loadDemos() {
 }
 
 initialize();
+
+// This is my comment
+// Please do not edit here

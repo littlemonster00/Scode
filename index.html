@@ -9,9 +9,7 @@
   <body tabindex="-1">
     <div class="container">
       <div class="navbar">This is navbar</div>
-      <div id="editor">
-        <textarea class="codemirror-textarea" id="textArea"></textarea>
-      </div>
+      <div id="editor"></div>
     </div>
   </body>
   <!-- Script -->
@@ -26,11 +24,6 @@
     type="text/javascript"
     src="plugin/CodeMirror/mode/javascript/javascript.js"
   ></script>
-  <script>
-    CodeMirror.fromTextArea(document.getElementById("textArea"), {
-      mode: "javascript",
-      lineNumbers: true
-    });
-  </script>
+
   <script type="module" src="index.js"></script>
 </html>
