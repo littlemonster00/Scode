@@ -58,5 +58,4 @@ function loadDemos() {
 
 initialize();
 
-// This is my comment
-// Please do not edit here
+// This is my comment...

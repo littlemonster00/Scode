@@ -1,5 +1,6 @@
 const { ipcRenderer, remote } = require("electron");
 const editor = document.getElementById("editor");
+const myModeSpec = require("./spec-mode/index");
 let myEditor;
 ipcRenderer.on("new-file", (event, args) => {
   const textArea = document.getElementById("text-editor");
@@ -51,7 +52,7 @@ ipcRenderer.on("file-open", (event, args) => {
     addSaveStateListener();
 
     myEditor = CodeMirror.fromTextArea(document.getElementById("textArea"), {
-      mode: "javascript",
+      mode: myModeSpec(args.filePath),
       lineNumbers: true
     });
     myEditor.setSize("100%", window.screen.height);
