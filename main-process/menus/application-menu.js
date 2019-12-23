@@ -4,6 +4,7 @@ const { ipcMain } = require("electron");
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
+const { openDir } = require("../system/opendir");
 const mainMenuTemplate = [
   {
     label: "File",
@@ -52,24 +53,10 @@ const mainMenuTemplate = [
     label: "Open Folder",
     accelerator: process.platform == "darwin" ? "Command+K" : "Ctrl+K",
     click(event, focusedWindow) {
+      const dirPaths = openDir(path.join(__dirname, "../../"));
       // Load file from current dicrectory
-      fs.readdir(".", (err, dir) => {
-        const filePaths = [];
-        for (let i = 0; i < dir.length; i++) {
-          console.log(dir[i]);
-          filePaths.push({
-            path: path.join(__dirname, "../../", dir[i]),
-            type:
-              fs.existsSync &&
-              fs.lstatSync(path.join(__dirname, "../../", dir[i])).isDirectory()
-                ? "dir"
-                : "file"
-          });
-        }
-
-        focusedWindow.webContents.send("directory-open", {
-          filePaths
-        });
+      focusedWindow.webContents.send("open-folder", {
+        dirPaths
       });
     }
   }

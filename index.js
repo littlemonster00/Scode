@@ -59,7 +59,7 @@ ipcRenderer.on("file-open", (event, args) => {
     myEditor.on("change", function(instance, changeObj) {
       const oldTitle = document.title;
       if (oldTitle.split(" ")[0] !== "*") {
-        document.title = "* " + oldTitle;
+        document.title = "* " + oldTitle + "- Scabin";
       }
     });
   }
@@ -81,22 +81,46 @@ ipcRenderer.on("save-file", (event, args) => {
   }
 });
 
-ipcRenderer.on("directory-open", (event, args) => {
+function openDir(dirPath) {
+  const { dirPaths } = ipcRenderer.sendSync("openDir", { dirPath });
+  // if (!dirPaths.length) return;
+  let elements = [];
+  for (let i = 0; i < dirPaths.length; i++) {
+    const node = document.createElement("div");
+    node.addEventListener("click", event => {
+      const target = div.target || div.srcElement;
+      const className =
+        target.getAttribute("class") || target.getAttribute("className");
+      if (className.split(" ").includes("dir")) {
+        const elements = openDir(div.target.id);
+        for (let j = 0; j < elements.length; j++) {
+          listDirs[i].appendChild(elements[j]);
+        }
+      }
+    });
+    node.innerHTML = dirPaths[i].path.split("/").pop();
+    elements.push(node);
+  }
+  return elements;
+}
+
+ipcRenderer.on("open-folder", (event, args) => {
   const navBar = document.getElementById("navbar");
-  function openFileOrFolder(fileName) {
-    console.log(fileName);
+  // give a dirPath that just return from main process on directory-open event
+  let dirPaths = args.dirPaths;
+  let element = "";
+  for (let i = 0; i < dirPaths.length; i++) {
+    element += `<div id="${dirPaths[i].path}" class="file-name ${
+      dirPaths[i].type
+    }">${dirPaths[i].path.split("/").pop()}</div>`;
   }
-  let pTags = "";
-  for (let i = 0; i < args.filePaths.length; i++) {
-    pTags += `<button key="${args.filePaths[i].path}" class="file-name ${
-      args.filePaths[i].type
-    }">${args.filePaths[i].path.split("/").pop()}</button></br>`;
-  }
-  navBar.innerHTML = pTags;
-  const listDirs = document.getElementsByClassName("file-name");
+  navBar.innerHTML = element;
+  let listDirs = document.getElementsByClassName("file-name");
+  console.log(listDirs);
+
   for (let i = 0; i < listDirs.length; i++) {
-    listDirs[i].addEventListener("click", button => {
-      console.log(button.target.innerHTML);
+    listDirs[i].addEventListener("click", div => {
+      openDir(listDirs[i].path);
     });
   }
 });
