@@ -1,27 +1,40 @@
 const { ipcRenderer, remote } = require("electron");
 const editor = document.getElementById("editor");
-const myModeSpec = require("./spec-mode/index");
+const myModeSpec = require("../spec-mode/index");
 let myEditor;
+
 ipcRenderer.on("new-file", (event, args) => {
-  const textArea = document.getElementById("text-editor");
-  if (textArea) {
-    if (document.title.split(" ")[0] === "*") {
-      alert("Please save this file before open new windows");
-      return;
-    }
-    textArea.parentNode.removeChild(textArea);
-  }
   if (args) {
+    const textArea = document.getElementById("textArea");
+    if (textArea) {
+      textArea.parentNode.removeChild(textArea);
+    }
+
     const div = document.createElement("div");
     div.id = "text-editor";
     div.innerHTML = `
-    <textarea name="" id="textArea"></textarea>
+    <textarea class="codemirror-textarea" name="" id="textArea"></textarea>
   `;
     document.getElementById("editor").appendChild(div);
-    document.title = "Untitled";
+
+    document.getElementById("textArea").value = args.text;
+
     addSaveStateListener();
+
+    myEditor = CodeMirror.fromTextArea(document.getElementById("textArea"), {
+      lineNumbers: true
+    });
+    myEditor.setSize("100%", window.screen.height * 0.9);
+    myEditor.on("change", function(instance, changeObj) {
+      const oldTitle = document.title;
+      if (oldTitle.split(" ")[0] !== "*") {
+        document.title = "* " + oldTitle + "- Scabin";
+      }
+    });
+    document.title = "Untitled";
   }
 });
+
 function addSaveStateListener() {
   const textArea = document.getElementById("textArea");
   textArea.addEventListener("keydown", logKey => {

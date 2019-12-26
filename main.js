@@ -21,7 +21,7 @@ function initialize() {
     //mainWindow.maximize();
     mainWindow.loadURL(
       url.format({
-        pathname: path.join(__dirname, "index.html"),
+        pathname: path.join(__dirname, "/src", "index.html"),
         protocol: "file:",
         slashes: true
       })
@@ -57,3 +57,5 @@ function loadDemos() {
 }
 
 initialize();
+
+// Everythings
