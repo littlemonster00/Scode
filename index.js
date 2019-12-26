@@ -81,25 +81,35 @@ ipcRenderer.on("save-file", (event, args) => {
   }
 });
 
-function openDir(dirPath) {
+function openDir(parent, dirPath) {
   const { dirPaths } = ipcRenderer.sendSync("openDir", { dirPath });
-  // if (!dirPaths.length) return;
+  if (!dirPaths.length) return;
   let elements = [];
   for (let i = 0; i < dirPaths.length; i++) {
     const node = document.createElement("div");
-    node.addEventListener("click", event => {
+    node.classList.add("file-name");
+    node.classList.add(dirPaths[i].type);
+
+    node.innerHTML = dirPaths[i].path.split("/").pop();
+
+    node.addEventListener("click", div => {
       const target = div.target || div.srcElement;
       const className =
         target.getAttribute("class") || target.getAttribute("className");
       if (className.split(" ").includes("dir")) {
-        const elements = openDir(div.target.id);
-        for (let j = 0; j < elements.length; j++) {
-          listDirs[i].appendChild(elements[j]);
-        }
+        console.log(div);
+        const elements = openDir(
+          document.getElementById(div.target.id),
+          div.target.id
+        );
+      } else {
+        return;
       }
     });
-    node.innerHTML = dirPaths[i].path.split("/").pop();
     elements.push(node);
+  }
+  for (let i = 0; i < elements.length; i++) {
+    parent.appendChild(elements[i]);
   }
   return elements;
 }
@@ -116,11 +126,9 @@ ipcRenderer.on("open-folder", (event, args) => {
   }
   navBar.innerHTML = element;
   let listDirs = document.getElementsByClassName("file-name");
-  console.log(listDirs);
-
   for (let i = 0; i < listDirs.length; i++) {
     listDirs[i].addEventListener("click", div => {
-      openDir(listDirs[i].path);
+      openDir(listDirs[i], div.target.id);
     });
   }
 });

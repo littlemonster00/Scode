@@ -7,7 +7,7 @@ const fs = require("fs");
 
 const openDir = dirPath => {
   if (!fs.existsSync(dirPath)) {
-    return null;
+    return [];
   }
   const dirs = fs.readdirSync(dirPath);
   const paths = [];

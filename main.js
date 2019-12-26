@@ -18,7 +18,7 @@ function initialize() {
         nodeIntegration: true
       }
     });
-    mainWindow.maximize();
+    //mainWindow.maximize();
     mainWindow.loadURL(
       url.format({
         pathname: path.join(__dirname, "index.html"),
