@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Tree view</title>
+  </head>
+  <body>
+    <ul id="myUL">
+      <li>
+        <span class="caret">Beverages</span>
+        <ul class="nested">
+          <li>Cabin</li>
+          <li>Coffee</li>
+          <li>
+            <span class="caret">Tea</span>
+            <ul class="nested">
+              <li>Black Tea</li>
+              <li>White Tea</li>
+              <li>
+                <span class="caret">Green Tea</span>
+                <ul class="nested">
+                  <li>Sencha</li>
+                  <li>Gyokuro</li>
+                  <li>Matcha</li>
+                  <li>Pi Lo Chun</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </body>
+  <link rel="stylesheet" href="tree.css" />
+  <script src="tree.js"></script>
+</html>
