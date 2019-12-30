@@ -1,4 +1,4 @@
-body, html {
+/* body, html {
   background-color: gray;
   height: 100%;
   width: 100%;
@@ -25,4 +25,18 @@ body, html {
     height: auto;
     font-family: Inconsolata, monospace;
     font-size: 16px;
+} */
+body,
+html {
+  background-color: gray;
+  overflow: hidden;
+  margin: unset;
+}
+.CodeMirror {
+  font-family: Inconsolata, monospace;
+  font-size: 14px;
+}
+
+.container {
+  background-color: blue;
 }
