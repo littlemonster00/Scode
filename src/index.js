@@ -5,6 +5,8 @@ let myEditor;
 
 ipcRenderer.on("new-file", (event, args) => {
   if (args) {
+    const [welcome] = document.getElementsByClassName("welcome");
+    if (welcome) welcome.parentNode.removeChild(welcome);
     const textArea = document.getElementById("textArea");
     if (textArea) {
       textArea.parentNode.removeChild(textArea);
@@ -12,9 +14,7 @@ ipcRenderer.on("new-file", (event, args) => {
 
     const div = document.createElement("div");
     div.id = "text-editor";
-    div.innerHTML = `
-    <textarea class="codemirror-textarea" name="" id="textArea"></textarea>
-  `;
+    div.innerHTML = `<textarea class="codemirror-textarea" name="" id="textArea"></textarea>`;
     document.getElementById("editor").appendChild(div);
 
     document.getElementById("textArea").value = args.text;
@@ -24,7 +24,7 @@ ipcRenderer.on("new-file", (event, args) => {
     myEditor = CodeMirror.fromTextArea(document.getElementById("textArea"), {
       lineNumbers: true
     });
-    myEditor.setSize("100%", window.screen.height * 0.9);
+    // myEditor.setSize("100%", "100%");
     myEditor.on("change", function(instance, changeObj) {
       const oldTitle = document.title;
       if (oldTitle.split(" ")[0] !== "*") {
@@ -48,14 +48,18 @@ function addSaveStateListener() {
 
 ipcRenderer.on("file-open", (event, args) => {
   if (args) {
+    const [welcome] = document.getElementsByClassName("welcome");
+    if (welcome) welcome.parentNode.removeChild(welcome);
     const textArea = document.getElementById("textArea");
     if (textArea) {
       textArea.parentNode.removeChild(textArea);
     }
+
     document.title = args.filePath.split("/").pop();
     const div = document.createElement("div");
     div.id = "text-editor";
-    div.innerHTML = `<textarea class="codemirror-textarea" name=${args.filePath} id="textArea">${args.text}</textarea>`;
+    const dataText = args.text.normalize("NFD");
+    div.innerHTML = `<textarea class="codemirror-textarea" name=${args.filePath} id="textArea">${dataText}</textarea>`;
 
     document.getElementById("editor").appendChild(div);
 
@@ -63,12 +67,10 @@ ipcRenderer.on("file-open", (event, args) => {
     document.getElementById("textArea").name = args.filePath;
 
     addSaveStateListener();
-
     myEditor = CodeMirror.fromTextArea(document.getElementById("textArea"), {
-      mode: myModeSpec(args.filePath),
+      ...myModeSpec(args.filePath),
       lineNumbers: true
     });
-    myEditor.setSize("100%", window.screen.height * 0.9);
     myEditor.on("change", function(instance, changeObj) {
       const oldTitle = document.title;
       if (oldTitle.split(" ")[0] !== "*") {
