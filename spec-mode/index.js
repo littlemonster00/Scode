@@ -8,16 +8,22 @@ function myModeSpec(filePath) {
   let myModeSpec;
   if (extFile === "js") {
     myModeSpec = {
-      name: "javascript",
-      json: true
+      mode: "javascript"
     };
   } else if (extFile === "html") {
     myModeSpec = {
-      name: "htmlmixed"
+      mode: "htmlmixed"
     };
   } else if (extFile === "css") {
     myModeSpec = {
-      name: "css"
+      mode: "css"
+    };
+  } else if (extFile === "json") {
+    myModeSpec = {
+      matchBrackets: true,
+      autoCloseBrackets: true,
+      mode: "application/ld+json",
+      lineWrapping: true
     };
   }
   return myModeSpec;

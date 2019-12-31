@@ -7,6 +7,7 @@ const ipc = require("electron").ipcMain;
 const glob = require("glob");
 
 let mainWindow;
+let currentWindowsIsopened = [];
 
 function initialize() {
   loadDemos();
@@ -48,6 +49,9 @@ function initialize() {
   });
 }
 
+module.exports = {
+  currentWindowsIsopened
+};
 // Require each JS file in the main-process dir
 function loadDemos() {
   const files = glob.sync(path.join(__dirname, "main-process/**/*.js"));
@@ -57,5 +61,4 @@ function loadDemos() {
 }
 
 initialize();
-
 // Everythings

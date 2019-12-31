@@ -5,6 +5,8 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 const { openDir } = require("../system/opendir");
+
+const { currentWindowsIsopened } = require("../../main");
 const mainMenuTemplate = [
   {
     label: "File",
@@ -24,6 +26,9 @@ const mainMenuTemplate = [
             defaultPath: "."
           });
           const text = fs.readFileSync(filePath, { encoding: "utf-8" });
+          currentWindowsIsopened.push({
+            path: filePath
+          });
           focusedWindow.webContents.send("file-open", {
             text,
             filePath
