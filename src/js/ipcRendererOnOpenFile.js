@@ -4,7 +4,7 @@ const { addSaveStateListener } = require("./addEventListener");
 
 function ipcRendererOnOpenFile() {
   ipcRenderer.on("file-open", (event, args) => {
-    if (args) {
+    if (args.text && args.filePath) {
       const [welcome] = document.getElementsByClassName("welcome");
       if (welcome) welcome.parentNode.removeChild(welcome);
       const textArea = document.getElementById("textArea");
@@ -28,6 +28,7 @@ function ipcRendererOnOpenFile() {
         ...myModeSpec(args.filePath),
         lineNumbers: true
       });
+      myEditor.focus();
       myEditor.on("change", function(instance, changeObj) {
         const oldTitle = document.title;
         if (oldTitle.split(" ")[0] !== "*") {

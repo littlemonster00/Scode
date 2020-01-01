@@ -16,7 +16,7 @@ function ipcRendererOnNewFile() {
       div.innerHTML = `<textarea class="codemirror-textarea" name="" id="textArea"></textarea>`;
       document.getElementById("editor").appendChild(div);
 
-      document.getElementById("textArea").value = args.text;
+      // document.getElementById("textArea").value = args.text;
 
       addSaveStateListener();
 
@@ -24,6 +24,7 @@ function ipcRendererOnNewFile() {
         lineNumbers: true
       });
       // myEditor.setSize("100%", "100%");
+      myEditor.focus();
       myEditor.on("change", function(instance, changeObj) {
         const oldTitle = document.title;
         if (oldTitle.split(" ")[0] !== "*") {
