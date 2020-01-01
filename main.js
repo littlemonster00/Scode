@@ -10,7 +10,6 @@ let mainWindow;
 let currentWindowsIsopened = [];
 
 function initialize() {
-  loadDemos();
   function createWindow() {
     mainWindow = new BrowserWindow({
       title: "Scode",
@@ -27,7 +26,7 @@ function initialize() {
         slashes: true
       })
     );
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     mainWindow.on("closed", () => {
       mainWindow = null;
@@ -52,13 +51,5 @@ function initialize() {
 module.exports = {
   currentWindowsIsopened
 };
-// Require each JS file in the main-process dir
-function loadDemos() {
-  const files = glob.sync(path.join(__dirname, "main-process/**/*.js"));
-  files.forEach(file => {
-    require(file);
-  });
-}
 
 initialize();
-// Everythings
