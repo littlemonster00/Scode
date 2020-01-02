@@ -22,9 +22,12 @@ const mainMenuTemplate = [
         label: "Open File",
         accelerator: process.platform == "darwin" ? "Command+O" : "Ctrl+O",
         click(item, focusedWindow) {
-          const filePaths = dialog.showOpenDialogSync(focusedWindow, {
-            defaultPath: "."
-          });
+          const filePaths = dialog.showOpenDialogSync(
+            BrowserWindow.getFocusedWindow(),
+            {
+              defaultPath: "."
+            }
+          );
 
           // This only allows opening one file at this time
           const filePath = filePaths ? filePaths[0] : undefined;
@@ -65,17 +68,6 @@ const mainMenuTemplate = [
     ]
   },
   {
-    label: "Open Folder",
-    accelerator: process.platform == "darwin" ? "Command+K" : "Ctrl+K",
-    click(event, focusedWindow) {
-      const dirPaths = openDir(path.join(__dirname, "../../"));
-      // Load file from current dicrectory
-      focusedWindow.webContents.send("open-folder", {
-        dirPaths
-      });
-    }
-  }
-  /*  {
     label: "Edit"
   },
   {
@@ -95,16 +87,14 @@ const mainMenuTemplate = [
   },
   {
     label: "Help"
-  }*/
+  }
 ];
 
 ipcMain.on("file-saved", (event, args) => {
   try {
     let filePath;
     if (!args.filePath) {
-      const currentWindow = args.win;
-      // currentWindowsIsopened.webContents.browserWindowOptions.alwaysOnTop = true;
-      filePath = dialog.showSaveDialogSync(currentWindow);
+      filePath = dialog.showSaveDialogSync(BrowserWindow.getFocusedWindow());
     } else {
       filePath = args.filePath;
     }
