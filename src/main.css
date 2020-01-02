@@ -12,21 +12,22 @@ body {
      is visible outside of the scrolling box. */
   outline: none;
 }
-.container {
+.scode-workspace {
   margin: unset;
+  width: auto;
   /* background-color: blue; */
 }
 .explorer {
   padding: 1px;
   background-color: #606060;
-  width: 25%;
+  width: 45%;
   height: 100vh;
   float: left;
   overflow: auto;
 }
 .workspace {
   background-color: turquoise;
-  width: 75%;
+  width: 55%;
   height: 100vh;
   float: left;
   overflow: auto;
@@ -54,4 +55,45 @@ body {
 }
 .welcome-image {
   background-color: blueviolet;
+}
+
+/* Tree view css */
+
+/* Remove default bullets */
+ul, #myUL {
+  list-style-type: none;
+}
+
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+.caret {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
+
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.caret-down::before {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Safari */'
+  transform: rotate(90deg);  
+}
+
+.nested {
+  display: none;
+}
+
+.active {
+  display: block;
 }
