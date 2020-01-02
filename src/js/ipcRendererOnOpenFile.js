@@ -7,7 +7,7 @@ function ipcRendererOnOpenFile() {
     if (args.text && args.filePath) {
       const [welcome] = document.getElementsByClassName("welcome");
       if (welcome) welcome.parentNode.removeChild(welcome);
-      const textArea = document.getElementById("textArea");
+      const textArea = document.getElementById("text-editor");
       if (textArea) {
         textArea.parentNode.removeChild(textArea);
       }
@@ -26,7 +26,8 @@ function ipcRendererOnOpenFile() {
       addSaveStateListener();
       myEditor = CodeMirror.fromTextArea(document.getElementById("textArea"), {
         ...myModeSpec(args.filePath),
-        lineNumbers: true
+        lineNumbers: true,
+        theme: "monokai"
       });
       myEditor.focus();
       myEditor.on("change", function(instance, changeObj) {
