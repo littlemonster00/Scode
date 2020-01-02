@@ -14,7 +14,7 @@ function ipcRendererOnNewFile() {
       const div = document.createElement("div");
       div.id = "text-editor";
       div.innerHTML = `<textarea class="codemirror-textarea" name="" id="textArea"></textarea>`;
-      document.getElementById("editor").appendChild(div);
+      document.getElementsByClassName("workspace").appendChild(div);
 
       // document.getElementById("textArea").value = args.text;
 

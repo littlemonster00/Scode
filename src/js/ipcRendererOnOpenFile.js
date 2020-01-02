@@ -18,7 +18,7 @@ function ipcRendererOnOpenFile() {
       const dataText = args.text.normalize("NFD");
       div.innerHTML = `<textarea class="codemirror-textarea" name=${args.filePath} id="textArea">${dataText}</textarea>`;
 
-      document.getElementById("editor").appendChild(div);
+      document.getElementsByClassName("workspace")[0].appendChild(div);
 
       document.getElementById("textArea").value = args.text;
       document.getElementById("textArea").name = args.filePath;
