@@ -2,6 +2,7 @@ const { ipcRenderer, remote } = require("electron");
 const { ipcRendererOnNewFile } = require("./js/ipcRenderOnNewFile");
 const { ipcRendererOnSaveFile } = require("./js/ipcRendererOnSaveFile");
 const { ipcRendererOnOpenFile } = require("./js/ipcRendererOnOpenFile");
+const { ipcRendererLoadDirs } = require("./js/ipcRenderLoadDirs");
 
 class ScodeEditor {
   constructor() {
@@ -15,12 +16,16 @@ class ScodeEditor {
     this.ipcRendererOnOpenFile = function() {
       ipcRendererOnOpenFile();
     };
+    this.ipcRendererLoadDirs = function() {
+      ipcRendererLoadDirs();
+    };
   }
 }
 let sEditor = new ScodeEditor();
 sEditor.ipcRendererOnNewFile();
 sEditor.ipcRendererOnSaveFile();
 sEditor.ipcRendererOnOpenFile();
+sEditor.ipcRendererLoadDirs();
 
 function openDir(parent, dirPath) {
   const { dirPaths } = ipcRenderer.sendSync("openDir", { dirPath });

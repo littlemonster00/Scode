@@ -22,17 +22,30 @@ const mainMenuTemplate = [
         label: "Open File",
         accelerator: process.platform == "darwin" ? "Command+O" : "Ctrl+O",
         click(item, focusedWindow) {
-          const [filePath] = dialog.showOpenDialogSync(focusedWindow, {
-            defaultPath: "."
-          });
-          const text = fs.readFileSync(filePath, { encoding: "utf-8" });
-          currentWindowsIsopened.push({
-            path: filePath
-          });
-          focusedWindow.webContents.send("file-open", {
-            text,
-            filePath
-          });
+          const filePaths = dialog.showOpenDialogSync(
+            BrowserWindow.getFocusedWindow(),
+            {
+              defaultPath: "."
+            }
+          );
+
+          // This only allows opening one file at this time
+          const filePath = filePaths ? filePaths[0] : undefined;
+          if (filePath) {
+            const text = fs.readFileSync(filePath, { encoding: "utf-8" });
+            currentWindowsIsopened.push({
+              path: filePath
+            });
+            focusedWindow.webContents.send("file-open", {
+              text,
+              filePath
+            });
+          } else {
+            focusedWindow.webContents.send("file-open", {
+              text: undefined,
+              filePath: undefined
+            });
+          }
         }
       },
       {
@@ -55,17 +68,6 @@ const mainMenuTemplate = [
     ]
   },
   {
-    label: "Open Folder",
-    accelerator: process.platform == "darwin" ? "Command+K" : "Ctrl+K",
-    click(event, focusedWindow) {
-      const dirPaths = openDir(path.join(__dirname, "../../"));
-      // Load file from current dicrectory
-      focusedWindow.webContents.send("open-folder", {
-        dirPaths
-      });
-    }
-  }
-  /*  {
     label: "Edit"
   },
   {
@@ -85,24 +87,31 @@ const mainMenuTemplate = [
   },
   {
     label: "Help"
-  }*/
+  }
 ];
 
 ipcMain.on("file-saved", (event, args) => {
   try {
     let filePath;
     if (!args.filePath) {
-      filePath = dialog.showSaveDialogSync(args.win);
+      filePath = dialog.showSaveDialogSync(BrowserWindow.getFocusedWindow());
     } else {
       filePath = args.filePath;
     }
-    fs.writeFileSync(filePath, args.text, "utf-8");
-    event.returnValue = {
-      filePath,
-      fileName: filePath.split("/").pop()
-    };
+    if (filePath) {
+      fs.writeFileSync(filePath, args.text, "utf-8");
+      event.returnValue = {
+        filePath,
+        fileName: filePath.split("/").pop()
+      };
+    } else {
+      event.returnValue = {
+        filePath: undefined,
+        fileName: undefined
+      };
+    }
   } catch (e) {
-    console.log("Failed to save the file !");
+    console.log("Failed to save the file !", e);
   }
 });
 

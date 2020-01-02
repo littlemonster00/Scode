@@ -21,7 +21,7 @@
     "typings": "^2.1.1"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.3",
+    "bootstrap": "^4.4.1",
     "codemirror": "^5.50.0",
     "css-modules-require-hook": "^4.2.3",
     "glob": "^7.1.6",

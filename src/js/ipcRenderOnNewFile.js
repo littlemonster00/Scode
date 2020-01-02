@@ -6,7 +6,7 @@ function ipcRendererOnNewFile() {
     if (args) {
       const [welcome] = document.getElementsByClassName("welcome");
       if (welcome) welcome.parentNode.removeChild(welcome);
-      const textArea = document.getElementById("textArea");
+      const textArea = document.getElementById("text-editor");
       if (textArea) {
         textArea.parentNode.removeChild(textArea);
       }
@@ -14,16 +14,18 @@ function ipcRendererOnNewFile() {
       const div = document.createElement("div");
       div.id = "text-editor";
       div.innerHTML = `<textarea class="codemirror-textarea" name="" id="textArea"></textarea>`;
-      document.getElementById("editor").appendChild(div);
+      document.getElementsByClassName("workspace").appendChild(div);
 
-      document.getElementById("textArea").value = args.text;
+      // document.getElementById("textArea").value = args.text;
 
       addSaveStateListener();
 
       myEditor = CodeMirror.fromTextArea(document.getElementById("textArea"), {
-        lineNumbers: true
+        lineNumbers: true,
+        theme: "monokai"
       });
       // myEditor.setSize("100%", "100%");
+      myEditor.focus();
       myEditor.on("change", function(instance, changeObj) {
         const oldTitle = document.title;
         if (oldTitle.split(" ")[0] !== "*") {

@@ -4,10 +4,10 @@ const { addSaveStateListener } = require("./addEventListener");
 
 function ipcRendererOnOpenFile() {
   ipcRenderer.on("file-open", (event, args) => {
-    if (args) {
+    if (args.text && args.filePath) {
       const [welcome] = document.getElementsByClassName("welcome");
       if (welcome) welcome.parentNode.removeChild(welcome);
-      const textArea = document.getElementById("textArea");
+      const textArea = document.getElementById("text-editor");
       if (textArea) {
         textArea.parentNode.removeChild(textArea);
       }
@@ -18,7 +18,7 @@ function ipcRendererOnOpenFile() {
       const dataText = args.text.normalize("NFD");
       div.innerHTML = `<textarea class="codemirror-textarea" name=${args.filePath} id="textArea">${dataText}</textarea>`;
 
-      document.getElementById("editor").appendChild(div);
+      document.getElementsByClassName("workspace")[0].appendChild(div);
 
       document.getElementById("textArea").value = args.text;
       document.getElementById("textArea").name = args.filePath;
@@ -26,8 +26,10 @@ function ipcRendererOnOpenFile() {
       addSaveStateListener();
       myEditor = CodeMirror.fromTextArea(document.getElementById("textArea"), {
         ...myModeSpec(args.filePath),
-        lineNumbers: true
+        lineNumbers: true,
+        theme: "monokai"
       });
+      myEditor.focus();
       myEditor.on("change", function(instance, changeObj) {
         const oldTitle = document.title;
         if (oldTitle.split(" ")[0] !== "*") {

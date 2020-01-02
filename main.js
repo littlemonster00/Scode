@@ -61,4 +61,4 @@ function loadDemos() {
 }
 
 initialize();
-// Everythings
+// Everythings work fine
