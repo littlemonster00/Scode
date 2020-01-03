@@ -20,14 +20,14 @@ body {
 .explorer {
   padding: 1px;
   background-color: #606060;
-  width: 45%;
+  width: 25%;
   height: 100vh;
   float: left;
   overflow: auto;
 }
 .workspace {
   background-color: turquoise;
-  width: 55%;
+  width: 75%;
   height: 100vh;
   float: left;
   overflow: auto;
