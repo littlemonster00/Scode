@@ -1,5 +1,9 @@
 # SCabin
 
+Demonstration
+
+![alt test](screenshots/demo.png)
+
 How to run your application
 
 ```git
