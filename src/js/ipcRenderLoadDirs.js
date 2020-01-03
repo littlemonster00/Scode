@@ -62,6 +62,10 @@ function ipcRendererLoadDirs() {
     } else {
       myLi.classList.add("file");
       myLi.innerHTML = files[i].name;
+      myLi.addEventListener("click", ev => {
+        loadFileContents(ev.target.id);
+        console.log(ev.target.id);
+      });
     }
     treeViewComponent.appendChild(myLi);
   }
