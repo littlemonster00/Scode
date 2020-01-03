@@ -29,7 +29,6 @@ const loadDirs = dirPath => {
 ipcMain.on("load-dirs", (event, args) => {
   if (args) {
     const files = loadDirs(args.dirPath);
-    console.log(files);
     if (!files.length) {
       event.returnValue = { error: files };
     } else {

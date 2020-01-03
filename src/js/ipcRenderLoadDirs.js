@@ -1,11 +1,13 @@
 const { ipcRenderer } = require("electron");
-
+const { loadFileContents } = require("./loadFileContents");
 // tree view component
 
 function loadChildNodes(dirPath) {
   let liParent = document.getElementById(dirPath);
   const ulChildNodes = document.createElement("ul");
-  ulChildNodes.id = "nested";
+  ulChildNodes.classList.add("nested");
+  ulChildNodes.classList.add("active");
+
   const { files } = ipcRenderer.sendSync("load-dirs", { dirPath });
   for (let i = 0; i < files.length; i++) {
     let li = document.createElement("li");
@@ -17,7 +19,15 @@ function loadChildNodes(dirPath) {
       li.addEventListener("click", ev => {
         const classList = [...ev.target.classList];
         if (classList.includes("caret-down")) {
-          const parentNode = ev.target.parentElement;
+          ev.target.parentElement
+            .querySelector(".nested")
+            .classList.toggle("active");
+          // Remove a list item that closed
+          ev.target.parentElement.removeChild(
+            ev.target.parentElement.querySelector(".nested")
+          );
+          // close caret
+          ev.target.classList.toggle("caret-down");
         } else {
           ev.target.classList.toggle("caret-down");
           loadChildNodes(ev.target.id);
@@ -26,6 +36,10 @@ function loadChildNodes(dirPath) {
     } else {
       li.classList.add("file");
       li.innerHTML = files[i].name;
+      li.addEventListener("click", ev => {
+        loadFileContents(ev.target.id);
+        console.log(ev.target.id);
+      });
     }
     ulChildNodes.appendChild(li);
   }
@@ -58,9 +72,15 @@ function ipcRendererLoadDirs() {
   const toggler = document.getElementsByClassName("caret");
   for (let i = 0; i < toggler.length; i++) {
     toggler[i].addEventListener("click", function() {
-      console.log(this.parentElement);
-      const classList = [...this.parentElement.classList];
+      const classList = [
+        ...this.parentElement.querySelector(".caret").classList
+      ];
       if (classList.includes("caret-down")) {
+        console.log(this.parentElement);
+        this.parentElement.removeChild(
+          this.parentElement.querySelector(".nested")
+        );
+        this.classList.toggle("caret-down");
       } else {
         this.classList.toggle("caret-down");
         loadChildNodes(this.parentElement.id);

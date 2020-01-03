@@ -78,3 +78,4 @@ ipcRenderer.on("open-folder", (event, args) => {
     });
   }
 });
+// This is my comment
