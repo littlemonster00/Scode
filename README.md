@@ -2,7 +2,7 @@
 
 Demonstration
 
-![alt test](screenshots/demo.png)
+![alt test](screenshots/demo-v2.0.2.png)
 
 How to run your application
 
