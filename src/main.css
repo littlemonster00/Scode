@@ -24,6 +24,7 @@ body {
   height: 100vh;
   float: left;
   overflow: auto;
+  font-size: 16px;
 }
 .workspace {
   background-color: turquoise;
@@ -44,10 +45,12 @@ body {
 
 .CodeMirror {
   font-family: Inconsolata, monospace;
-  font-size: 14px;
+  font-size: 14.5px;
   border: 1px solid #eee;
   height: auto;
   width: auto;
+  line-height:21px;
+
 }
 
 .welcome-text {
@@ -78,7 +81,8 @@ ul, #myUL {
 }
 
 .caret::before {
-  content: "\25B6";
+  /*content: "\25B6";*/
+  content: "\276f";
   color: black;
   display: inline-block;
   margin-right: 6px;
@@ -98,4 +102,22 @@ ul, #myUL {
   display: block;
   padding-left: 20px;
 
+}
+/* .icon-dir {
+  width: 16px;
+  height: 16px;
+}
+.icon-file {
+  width: 16px;
+  height: 16px;
+
+} */
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+
+}
+ul#myUL {
+  margin-left: 5px;
 }

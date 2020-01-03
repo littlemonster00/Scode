@@ -15,14 +15,16 @@ function loadChildNodes(dirPath) {
     li.classList.add(files[i].path.split("/").length - 5);
     if (files[i].type === "folder") {
       li.classList.add("folder");
-      li.innerHTML = `<span class="caret" id=${files[i].path}>${files[i].name}</span>`;
-      li.addEventListener("click", ev => {
-        const classList = [...ev.target.classList];
+      const span = document.createElement("span");
+      span.classList.add("caret");
+      span.id = files[i].path;
+      span.innerHTML = `<img class="icon" src="../assets/icons/png/folder.png">${files[i].name}</img>`;
+      li.appendChild(span);
+      span.addEventListener("click", ev => {
+        const classList = [
+          ...ev.target.parentElement.querySelector(".caret").classList
+        ];
         if (classList.includes("caret-down")) {
-          ev.target.parentElement
-            .querySelector(".nested")
-            .classList.toggle("active");
-          // Remove a list item that closed
           ev.target.parentElement.removeChild(
             ev.target.parentElement.querySelector(".nested")
           );
@@ -33,9 +35,31 @@ function loadChildNodes(dirPath) {
           loadChildNodes(ev.target.id);
         }
       });
+      // li.innerHTML = `<span class="caret" id=${files[i].path}>${files[i].name}</span>`;
+      // li.addEventListener("click", ev => {
+      //   console.log(ev);
+      //   // const classList = [...ev.target.classList];
+      //   const classList = [
+      //     ...ev.target.parentElement.querySelector(".caret").classList
+      //   ];
+      //   if (classList.includes("caret-down")) {
+      //     // ev.target.parentElement
+      //     //   .querySelector(".nested")
+      //     //   .classList.toggle("active");
+      //     // Remove a list item that closed
+      //     ev.target.parentElement.removeChild(
+      //       ev.target.parentElement.querySelector(".nested")
+      //     );
+      //     // close caret
+      //     ev.target.classList.toggle("caret-down");
+      //   } else {
+      //     ev.target.classList.toggle("caret-down");
+      //     loadChildNodes(ev.target.id);
+      //   }
+      // });
     } else {
       li.classList.add("file");
-      li.innerHTML = files[i].name;
+      li.innerHTML = `<img class="icon" src="../assets/icons/png/file.png">${files[i].name}</img>`;
       li.addEventListener("click", ev => {
         loadFileContents(ev.target.id);
         console.log(ev.target.id);
@@ -48,7 +72,7 @@ function loadChildNodes(dirPath) {
 
 function ipcRendererLoadDirs() {
   const { files } = ipcRenderer.sendSync("load-dirs", {
-    dirPath: "/home/lqs/coding/scabin"
+    dirPath: ipcRenderer.sendSync("getExcPath", "ping")
   });
   const treeViewComponent = document.createElement("ul");
   treeViewComponent.id = "myUL";
@@ -58,10 +82,10 @@ function ipcRendererLoadDirs() {
     myLi.classList.add(files[i].path.split("/").length - 5);
     if (files[i].type === "folder") {
       myLi.classList.add("folder");
-      myLi.innerHTML = `<span class="caret">${files[i].name}</span>`;
+      myLi.innerHTML = `<span class="caret"><img class="icon" src="../assets/icons/png/folder.png"></img>${files[i].name}</span>`;
     } else {
       myLi.classList.add("file");
-      myLi.innerHTML = files[i].name;
+      myLi.innerHTML = `<img class="icon" src="../assets/icons/png/file.png">${files[i].name}</img>`;
       myLi.addEventListener("click", ev => {
         loadFileContents(ev.target.id);
         console.log(ev.target.id);
@@ -80,7 +104,6 @@ function ipcRendererLoadDirs() {
         ...this.parentElement.querySelector(".caret").classList
       ];
       if (classList.includes("caret-down")) {
-        console.log(this.parentElement);
         this.parentElement.removeChild(
           this.parentElement.querySelector(".nested")
         );
