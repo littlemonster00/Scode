@@ -8,7 +8,7 @@ function loadFileContents(filePath) {
   });
   const [welcome] = document.getElementsByClassName("welcome");
   if (welcome) welcome.parentNode.removeChild(welcome);
-  const textArea = document.getElementById("text-editor");
+  let textArea = document.getElementById("text-editor");
   if (textArea) {
     textArea.parentNode.removeChild(textArea);
   }
@@ -16,13 +16,15 @@ function loadFileContents(filePath) {
   document.title = filePath.split("/").pop();
   const div = document.createElement("div");
   div.id = "text-editor";
-  div.innerHTML = `<textarea class="codemirror-textarea" name=${filePath} id="textArea">${fileContents}</textarea>`;
-
+  textArea = document.createElement("textarea");
+  textArea.classList.add("codemirror-textarea");
+  textArea.id = "textArea";
+  textArea.name = filePath;
+  textArea.value = fileContents;
+  div.appendChild(textArea);
+  // div.innerHTML = `<textarea class="codemirror-textarea" name=${filePath} id="textArea">${fileContents}</textarea>`;
   document.getElementsByClassName("workspace")[0].appendChild(div);
-
-  //   document.getElementById("textArea").value = args.text;
-  //   document.getElementById("textArea").name = args.filePath;
-
+  
   addSaveStateListener();
   myEditor = CodeMirror.fromTextArea(document.getElementById("textArea"), {
     ...myModeSpec(filePath),

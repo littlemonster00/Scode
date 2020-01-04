@@ -49,8 +49,7 @@ body {
   border: 1px solid #eee;
   height: auto;
   width: auto;
-  line-height:21px;
-
+  line-height: 21px;
 }
 
 .welcome-text {
@@ -63,7 +62,8 @@ body {
 /* Tree view css */
 
 /* Remove default bullets */
-ul, #myUL {
+ul,
+#myUL {
   list-style-type: none;
 }
 
@@ -90,8 +90,8 @@ ul, #myUL {
 
 .caret-down::before {
   -ms-transform: rotate(90deg); /* IE 9 */
-  -webkit-transform: rotate(90deg); /* Safari */'
-  transform: rotate(90deg);  
+  -webkit-transform: rotate(90deg); /* Safari */
+  transform: rotate(90deg);
 }
 
 .nested {
@@ -101,7 +101,6 @@ ul, #myUL {
 .active {
   display: block;
   padding-left: 20px;
-
 }
 /* .icon-dir {
   width: 16px;
@@ -116,8 +115,10 @@ ul, #myUL {
   width: 16px;
   height: 16px;
   margin-right: 5px;
-
 }
 ul#myUL {
   margin-left: 5px;
+}
+li:hover {
+  cursor: pointer;
 }

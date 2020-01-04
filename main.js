@@ -13,6 +13,8 @@ function initialize() {
   loadDemos();
   function createWindow() {
     mainWindow = new BrowserWindow({
+      width: 1000,
+      height: 650,
       title: "Scode",
       icon: "./assets/icons/png/icon.png",
       webPreferences: {
