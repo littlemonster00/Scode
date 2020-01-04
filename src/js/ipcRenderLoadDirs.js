@@ -74,6 +74,7 @@ function ipcRendererLoadDirs() {
   const { files } = ipcRenderer.sendSync("load-dirs", {
     dirPath: ipcRenderer.sendSync("getExcPath", "ping")
   });
+  console.log(ipcRenderer.sendSync("getExcPath", "ping"));
   const treeViewComponent = document.createElement("ul");
   treeViewComponent.id = "myUL";
   for (let i = 0; i < files.length; i++) {
