@@ -63,4 +63,3 @@ function loadDemos() {
 }
 
 initialize();
-// Everythings work fine

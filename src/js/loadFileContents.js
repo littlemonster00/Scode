@@ -6,6 +6,8 @@ function loadFileContents(filePath) {
   const { fileContents } = ipcRenderer.sendSync("loadFileContents", {
     filePath
   });
+  
+  ipcRenderer.sendSync("queue-file-open", { path: filePath });
   const [welcome] = document.getElementsByClassName("welcome");
   if (welcome) welcome.parentNode.removeChild(welcome);
   let textArea = document.getElementById("text-editor");
@@ -24,7 +26,7 @@ function loadFileContents(filePath) {
   div.appendChild(textArea);
   // div.innerHTML = `<textarea class="codemirror-textarea" name=${filePath} id="textArea">${fileContents}</textarea>`;
   document.getElementsByClassName("workspace")[0].appendChild(div);
-  
+
   addSaveStateListener();
   myEditor = CodeMirror.fromTextArea(document.getElementById("textArea"), {
     ...myModeSpec(filePath),
@@ -32,7 +34,11 @@ function loadFileContents(filePath) {
     theme: "monokai"
   });
   myEditor.focus();
+
   myEditor.on("change", function(instance, changeObj) {
+    ipcRenderer.sendSync("queue-save", {
+      ...changeObj
+    });
     const oldTitle = document.title;
     if (oldTitle.split(" ")[0] !== "*") {
       document.title = "* " + oldTitle + "- Scabin";

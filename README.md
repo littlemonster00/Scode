@@ -1,4 +1,4 @@
-# SCabin
+# SCode
 
 Demonstration
 
@@ -7,8 +7,8 @@ Demonstration
 How to run your application
 
 ```git
-$ git clone git@github.com:littlemonster00/SCabin.git
-$ cd SCabin && npm install
+$ git clone git@github.com:littlemonster00/Scode.git
+$ cd Scode && npm install
 $ npm start
 ```
 

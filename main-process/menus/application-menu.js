@@ -127,7 +127,12 @@ if (process.env.NODE_ENV != "production") {
         }
       },
       {
-        role: "reload"
+        label: "Reload",
+   		accelerator: process.platform == "darwin" ? "Command+R" : "Ctrl+R",
+        click(item, win) {
+          win.reload()
+          console.log(item);
+        }
       }
     ]
   });

@@ -1,7 +1,6 @@
 * {
   box-sizing: border-box;
 }
-
 body {
   margin: unset;
 }
@@ -50,6 +49,10 @@ body {
   height: auto;
   width: auto;
   line-height: 21px;
+}
+
+li.folder:hover {
+  /* background-color: red; */
 }
 
 .welcome-text {

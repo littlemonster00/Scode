@@ -31,6 +31,7 @@ function ipcRendererOnOpenFile() {
       });
       myEditor.focus();
       myEditor.on("change", function(instance, changeObj) {
+        console.log(changeObj);
         const oldTitle = document.title;
         if (oldTitle.split(" ")[0] !== "*") {
           document.title = "* " + oldTitle + "- Scabin";
