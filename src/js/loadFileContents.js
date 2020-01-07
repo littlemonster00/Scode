@@ -6,7 +6,7 @@ function loadFileContents(filePath) {
   const { fileContents } = ipcRenderer.sendSync("loadFileContents", {
     filePath
   });
-  
+
   ipcRenderer.sendSync("queue-file-open", { path: filePath });
   const [welcome] = document.getElementsByClassName("welcome");
   if (welcome) welcome.parentNode.removeChild(welcome);
@@ -35,14 +35,38 @@ function loadFileContents(filePath) {
   });
   myEditor.focus();
 
+  let queueChanges = [];
+  const doc = myEditor.getDoc();
+
   myEditor.on("change", function(instance, changeObj) {
-    ipcRenderer.sendSync("queue-save", {
-      ...changeObj
-    });
+    let operator = changeObj.origin;
+    let lineNumber = changeObj.from.line;
+    const content = doc.getLine(lineNumber);
+    const indexExisted = queueChanges.findIndex(
+      line => line.lineNumber === lineNumber
+    );
+    if (indexExisted >= 0) {
+      queueChanges[indexExisted] = {
+        lineNumber,
+        content,
+        origin: changeObj.origin
+      };
+    } else {
+      queueChanges.push({
+        lineNumber,
+        content,
+        origin: changeObj.origin
+      });
+    }
+    console.log(changeObj);
     const oldTitle = document.title;
     if (oldTitle.split(" ")[0] !== "*") {
       document.title = "* " + oldTitle + "- Scabin";
     }
+  });
+  ipcRenderer.on("save-file", (event, args) => {
+    ipcRenderer.sendSync("queue-changes", { queueChanges });
+    queueChanges = [];
   });
 }
 
