@@ -14,7 +14,7 @@
   "author": "Sang Lequang",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^7.1.4",
+    "electron": "^7.2.4",
     "electron-devtools-installer": "^2.2.4",
     "electron-packager": "^14.1.1",
     "typescript": "^3.7.3",
